@@ -12,6 +12,22 @@ angular.module('perfect_scrollbar', []).directive('perfectScrollbar',
     template: '<div><div ng-transclude></div></div>',
     replace: true,
     link: function($scope, $elem, $attr) {
+      var oldie = function () {
+        var ua = $window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+          return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie))) < 10;
+        }
+
+        return false;
+      };
+
+      if (oldie()) {
+        $elem.addClass('ps-overflow');
+        return;
+      }
+
       var jqWindow = angular.element($window);
       var options = {};
 
