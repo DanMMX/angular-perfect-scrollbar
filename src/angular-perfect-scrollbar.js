@@ -1,5 +1,5 @@
 angular.module('perfect_scrollbar', []).directive('perfectScrollbar',
-  ['$parse', '$window', function($parse, $window) {
+  ['$parse', '$window', '$timeout', function($parse, $window, $timeout) {
   var psOptions = [
     'wheelSpeed', 'wheelPropagation', 'minScrollbarLength', 'maxScrollbarLength', 'useBothWheelAxes',
     'useKeyboard', 'suppressScrollX', 'suppressScrollY', 'scrollXMarginOffset',
@@ -90,6 +90,10 @@ angular.module('perfect_scrollbar', []).directive('perfectScrollbar',
         $elem.perfectScrollbar('destroy');
       });
 
+      // fixes the no scrollbar until scroll err
+      $timeout(function () {
+        $elem.perfectScrollbar('update');
+      });
     }
   };
 }]);
