@@ -24,7 +24,7 @@ define([
           $elem = jQuery($elem);
         }
 
-        if (browserDetection.browser.IE && (browserDetection.browser.IE8 || browserDetection.browser.IE7)) {
+        if (browserDetection.browser.IE && (browserDetection.browser.IE7 || browserDetection.browser.IE8 || browserDetection.browser.IE9)) {
           $elem.addClass('ps-overflow');
           return;
         }
@@ -54,9 +54,9 @@ define([
           });
         });
 
-        function update(event) {
+        function update(eventType) {
           $scope.$evalAsync(function() {
-            if ($attr.scrollDown == 'true' && event != 'mouseenter') {
+            if ($attr.scrollDown == 'true' && eventType != 'mouseenter') {
               setTimeout(function () {
                 $($elem).scrollTop($($elem).prop("scrollHeight"));
               }, 100);
@@ -66,7 +66,7 @@ define([
         }
 
         // This is necessary when you don't watch anything with the scrollbar
-        $elem.bind('mouseenter', update('mouseenter'));
+        $elem.on('mouseenter', update('mouseenter'));
 
         // Possible future improvement - check the type here and use the appropriate watch for non-arrays
         if ($attr.refreshOnChange) {
@@ -80,7 +80,7 @@ define([
           jqWindow.on('resize', update);
         }
 
-        $elem.bind('$destroy', function() {
+        $elem.on('$destroy', function() {
           jqWindow.off('resize', update);
           $elem.perfectScrollbar('destroy');
         });
